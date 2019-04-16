@@ -1,0 +1,14 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="gupaoedu-vip-spring:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <properties id="maven-jee-properties">
+      <options>
+        <module>gupaoedu-vip-spring</module>
+        <packaging>war</packaging>
+      </options>
+    </properties>
+    <root id="archive" name="gupaoedu-vip-spring.war">
+      <element id="artifact" artifact-name="gupaoedu-vip-spring:war exploded" />
+    </root>
+  </artifact>
+</component>
