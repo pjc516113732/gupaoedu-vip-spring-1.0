@@ -9,6 +9,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
 /**
@@ -20,6 +22,8 @@ import java.util.Properties;
 public class JCDispatcherServlet extends HttpServlet {
 
     private Properties properties = new Properties();
+
+    private List<String> classNames = new ArrayList<String>();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -35,7 +39,7 @@ public class JCDispatcherServlet extends HttpServlet {
         doLoadConfig(config.getInitParameter("contextConfigLocation"));
         //2.扫描相关的类
         doScanner(properties.getProperty("scanPackage"));
-        //3.扫描的类放入IOC容器中
+        //3.初始化扫描的类放入IOC容器中
         doInstance();
         //4.完成依赖注入
         doAutowired();
@@ -53,6 +57,11 @@ public class JCDispatcherServlet extends HttpServlet {
     }
 
     private void doInstance() {
+        //初始化,为DI准备
+        if(classNames.isEmpty()){
+            return;
+        }
+
 
     }
 
@@ -65,7 +74,8 @@ public class JCDispatcherServlet extends HttpServlet {
             if (file.isDirectory()){
                 doScanner(scanPackage+"."+file.getName());
             }else {
-
+                if (!file.getName().endsWith(".class")){continue;}
+                classNames.add(scanPackage + "." +file.getName().replace(".class",""));
             }
         }
 
